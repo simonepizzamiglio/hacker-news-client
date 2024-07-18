@@ -1,6 +1,6 @@
 export function LoadingSection() {
   return (
-    <div className="flex h-screen flex-1 items-center justify-center">
+    <div className="flex h-screen flex-1 items-center justify-center" role="status">
       <div className="flex w-80 flex-col items-center gap-5 p-6">
         <div className="h-12 w-12 rounded-lg">
           <div className="h-6 w-6">
