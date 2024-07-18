@@ -15,12 +15,10 @@ export const Primary: Story = {
   args: {
     title: "My title",
     href: "#",
-    domain: "google.com",
     points: 34,
     by: "Bill Gates",
     timestamp: 1721059974754,
     postType: PostTypeEnum.story,
-    isExternalLink: false,
     commentsCount: 7,
   },
 };
