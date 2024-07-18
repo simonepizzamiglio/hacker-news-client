@@ -294,7 +294,7 @@ Clearly display error states if any network requests have failed, or when there'
 ### Virtualized lists
 
 Virtualized lists is a technique to optimize the rendering of long lists of data by only rendering the items that are currently visible to the user. This approach significantly improves performance and reduces memory usage compared to rendering all items at once. Virtualized lists dynamically render items as the user scrolls, ensuring a smooth and responsive user experience while efficiently handling large datasets.
-We’ve decided against using a virtualized list for our app because we don't expect users to load thousands of items.
+We’ve chosen not to use a virtualized list for our app because the Hacker News API provides a maximum of 500 items, so users won’t need to load more than that.
 
 ### Loading indicators
 
