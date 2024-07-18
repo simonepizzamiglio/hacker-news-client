@@ -17,7 +17,7 @@ Modern Hacker News client which offers an improved user interface while displayi
 | Real-time timestamp updates |   ❌   |
 | Handle errors               |   🚧   |
 | Storybook                   |   🚧   |
-| Playwright                  |   ❌   |
+| Playwright                  |   🚧   |
 | Unit tests                  |   ❌   |
 
 ## Requirements exploration
