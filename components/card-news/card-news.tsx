@@ -71,7 +71,12 @@ export function CardNews({
         </div>
         <div className="flex grow flex-col justify-center gap-2">
           <div className="flex flex-col gap-1 self-stretch md:flex-row md:items-center">
-            <span className="text-sm font-medium text-base-color">{title}</span>
+            <span
+              className="text-sm font-medium text-base-color"
+              style={{ wordBreak: "break-word" }}
+            >
+              {title}
+            </span>
             {domain && (
               <span className="text-xs font-normal text-light">({domain})</span>
             )}
@@ -116,10 +121,10 @@ export function CardNews({
 export function CardNewsSkeleton() {
   return (
     <div className="flex items-center space-x-4 py-6">
-      <Skeleton className="h-10 w-10 rounded-full" />
-      <div className="space-y-2">
-        <Skeleton className="h-4 w-[450px]" />
-        <Skeleton className="h-4 w-[350px]" />
+      <Skeleton className="h-10 w-10 shrink-0 rounded-full" />
+      <div className="flex w-full flex-col space-y-2">
+        <Skeleton className="h-4 w-11/12 sm:w-[450px]" />
+        <Skeleton className="h-4 w-9/12 sm:w-[350px]" />
       </div>
     </div>
   );
