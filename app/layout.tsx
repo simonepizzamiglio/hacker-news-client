@@ -10,8 +10,8 @@ import {
   ShowIcon,
   SpeakLineIcon,
 } from "@/components/ui/icons";
-import type { NavItem } from "@/components/header";
-import * as Sidebar from "@/components/header";
+import type { NavItem } from "@/components/navigation";
+import * as Sidebar from "@/components/navigation";
 import { Logo } from "@/components/ui";
 
 const NAV_ITEMS: NavItem[] = [
@@ -66,7 +66,7 @@ export default function RootLayout({
             <Logo />
             <Sidebar.SidebarOpenButton
               className="lg:hidden"
-              navigationMenu={<Sidebar.NavigationMenu items={NAV_ITEMS} />}
+              items={NAV_ITEMS}
             />
           </header>
           <main className="flex-1">

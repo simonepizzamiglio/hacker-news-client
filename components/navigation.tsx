@@ -40,28 +40,12 @@ const menuButtonToggleStyle = cva(
   "cursor-pointer text-light transition-transform duration-200 ease-in-out hover:bg-transparent hover:text-base-color",
 );
 
-const Sidebar = ({ navigationMenu }: { navigationMenu: React.ReactNode }) => (
-  <DialogPortal>
-    <DialogOverlay />
-    <DialogPrimitive.Content className="fixed inset-y-0 left-0 top-0 z-50 flex h-screen w-[240px] flex-col gap-y-4 border-r bg-background p-6 px-4 shadow-lg transition ease-in-out data-[state=closed]:duration-300 data-[state=open]:duration-500 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:slide-out-to-left data-[state=open]:slide-in-from-left">
-      <div className="flex justify-between">
-        <Logo />
-        <DialogPrimitive.Close className={menuButtonToggleStyle()}>
-          <CloseIcon />
-          <span className="sr-only">Close</span>
-        </DialogPrimitive.Close>
-      </div>
-      {navigationMenu}
-    </DialogPrimitive.Content>
-  </DialogPortal>
-);
-
 const SidebarOpenButton = ({
-  navigationMenu,
+  items,
   className,
 }: {
   className?: string;
-  navigationMenu: React.ReactNode;
+  items: NavItem[];
 }) => {
   return (
     <Dialog>
@@ -74,7 +58,34 @@ const SidebarOpenButton = ({
           <HamburgerIcon title="Open mobile navigation" />
         </Button>
       </DialogTrigger>
-      <Sidebar navigationMenu={navigationMenu} />
+      <DialogPortal>
+        <DialogOverlay />
+        <DialogPrimitive.Content className="fixed inset-y-0 left-0 top-0 z-50 flex h-screen w-[240px] flex-col gap-y-4 border-r bg-background p-6 px-4 shadow-lg transition ease-in-out data-[state=closed]:duration-300 data-[state=open]:duration-500 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:slide-out-to-left data-[state=open]:slide-in-from-left">
+          <div className="flex justify-between">
+            <Logo />
+            <DialogPrimitive.Close className={menuButtonToggleStyle()}>
+              <CloseIcon />
+              <span className="sr-only">Close</span>
+            </DialogPrimitive.Close>
+          </div>
+          <NavigationMenuPrimitive.NavigationMenu>
+            <NavigationMenuPrimitive.NavigationMenuList>
+              {items.map(({ icon, label, href }, index) => (
+                <NavigationMenuPrimitive.NavigationMenuItem
+                  key={`sidebar-nav-item-${index}`}
+                >
+                  <DialogPrimitive.Close asChild>
+                    <NavigationMenuLink href={href}>
+                      {icon}
+                      {label}
+                    </NavigationMenuLink>
+                  </DialogPrimitive.Close>
+                </NavigationMenuPrimitive.NavigationMenuItem>
+              ))}
+            </NavigationMenuPrimitive.NavigationMenuList>
+          </NavigationMenuPrimitive.NavigationMenu>
+        </DialogPrimitive.Content>
+      </DialogPortal>
     </Dialog>
   );
 };
