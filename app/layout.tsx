@@ -75,7 +75,7 @@ export default function RootLayout({
                 <Logo />
                 <Sidebar.NavigationMenu items={NAV_ITEMS} />
               </aside>
-              <div className="flex min-h-screen flex-1 items-start px-8 lg:px-16">
+              <div className="flex min-h-screen flex-1 items-start px-8 py-8 lg:px-16">
                 {children}
               </div>
             </div>

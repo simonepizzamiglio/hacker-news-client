@@ -49,16 +49,16 @@ export default async function Page({ params }: PageProps) {
 
   return (
     <div className="flex flex-col items-stretch gap-y-12">
+      <div className="flex items-center gap-4 self-stretch">
+        <Link
+          href="../../"
+          className="flex items-center justify-center gap-1 pl-0 text-primary hover:text-orange-800 hover:no-underline"
+        >
+          <ArrowLeftIcon />
+          <span className="text-sm font-medium">Back</span>
+        </Link>
+      </div>
       <div className="flex flex-col items-stretch">
-        <div className="flex items-center gap-4 self-stretch py-8">
-          <Link
-            href="../../"
-            className="flex items-center justify-center gap-1 pl-0 text-primary hover:text-orange-800 hover:no-underline"
-          >
-            <ArrowLeftIcon />
-            <span className="text-sm font-medium">Back</span>
-          </Link>
-        </div>
         <div className="flex flex-col gap-4 self-stretch">
           <h1 className="text-4xl font-semibold">{item.title}</h1>
           <div className="flex flex-wrap items-center gap-3">

@@ -38,11 +38,13 @@ export default async function New({
   }
 
   return (
-    <div className="flex flex-1 flex-col justify-center gap-2 py-8">
-      <h1 className="text-2xl font-semibold text-neutral-900">New</h1>
-      <h2 className="text-sm font-normal text-neutral-500">
-        Discover the latest submissions in the Hacker News community.
-      </h2>
+    <div className="flex flex-1 flex-col justify-center gap-4">
+      <div className="flex flex-1 flex-col gap-2">
+        <h1 className="text-2xl font-semibold text-neutral-900">New</h1>
+        <h2 className="text-sm font-normal text-neutral-500">
+          Discover the latest submissions in the Hacker News community.
+        </h2>
+      </div>
       {pagesToShow.map((page, i) => (
         <Suspense
           fallback={
