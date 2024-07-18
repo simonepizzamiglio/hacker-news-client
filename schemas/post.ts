@@ -48,6 +48,7 @@ export const CommentItemSchema = BaseItemSchema.extend({
       "The comment's parent: either another comment or the relevant story.",
     ),
   text: z.string().optional().describe(descObj.text),
+  by: z.string().optional().describe("The username of the item's author."),
 });
 export type CommentItem = z.infer<typeof CommentItemSchema>;
 
