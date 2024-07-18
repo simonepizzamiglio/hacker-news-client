@@ -98,7 +98,12 @@ export default async function Page({ params }: PageProps) {
           </div>
         </div>
       </div>
-      {item.text && <p className="text-lg text-light">{item.text}</p>}
+      {item.text && (
+        <div
+          className="text-lg text-light"
+          dangerouslySetInnerHTML={{ __html: sanitize(item.text) }}
+        />
+      )}
       {item.descendants > 0 && (
         <div>
           <div className="border-t-2 py-4">
