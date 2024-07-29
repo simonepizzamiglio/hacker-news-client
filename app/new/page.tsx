@@ -45,21 +45,23 @@ export default async function New({
           Discover the latest submissions in the Hacker News community.
         </h2>
       </div>
-      {pagesToShow.map((page, i) => (
-        <Suspense
-          fallback={
-            <>
-              {page.items.map((_, index) => (
-                <CardNewsSkeleton key={`page-${i}-skeleton-${index}`} />
-              ))}
-            </>
-          }
-          key={`stories-page-${i}`}
-        >
-          <Page page={page} />
-        </Suspense>
-      ))}
-      {hasMore && <LoadMoreButton nextPage={nextPage} />}
+      <ul className="flex flex-col" aria-label="Articles list">
+        {pagesToShow.map((page, i) => (
+          <Suspense
+            fallback={
+              <>
+                {page.items.map((_, index) => (
+                  <CardNewsSkeleton key={`page-${i}-skeleton-${index}`} />
+                ))}
+              </>
+            }
+            key={`stories-page-${i}`}
+          >
+            <Page page={page} />
+          </Suspense>
+        ))}
+        {hasMore && <LoadMoreButton nextPage={nextPage} />}
+      </ul>
     </div>
   );
 }
@@ -68,7 +70,7 @@ async function Page({ page }: { page: Page }) {
   const items = await fetchPageItems(page);
 
   return (
-    <ul className="flex flex-col">
+    <>
       {items.map((item) => {
         if (!isStoryItem(item)) return null;
 
@@ -87,6 +89,6 @@ async function Page({ page }: { page: Page }) {
           </li>
         );
       })}
-    </ul>
+    </>
   );
 }

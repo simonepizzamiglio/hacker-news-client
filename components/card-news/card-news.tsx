@@ -120,7 +120,12 @@ export function CardNews({
 
 export function CardNewsSkeleton() {
   return (
-    <div className="flex items-center space-x-4 py-6">
+    <div
+      className="flex items-center space-x-4 py-6"
+      tabIndex={0}
+      role="status"
+      aria-label="Loading article"
+    >
       <Skeleton className="h-10 w-10 shrink-0 rounded-full" />
       <div className="flex w-full flex-col space-y-2">
         <Skeleton className="h-4 w-11/12 sm:w-[450px]" />
