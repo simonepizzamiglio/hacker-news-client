@@ -18,7 +18,7 @@ Modern Hacker News client which offers an improved user interface while displayi
 | Handle errors               |   🚧   |
 | Storybook                   |   🚧   |
 | Playwright                  |   🚧   |
-| Unit tests                  |   ❌   |
+| Unit tests                  |   ✅   |
 
 ## Requirements exploration
 
