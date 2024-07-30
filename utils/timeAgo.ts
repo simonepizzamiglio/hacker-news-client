@@ -1,7 +1,7 @@
 export function timeAgo(unixTimestamp: number) {
   const now = Date.now();
   const date = unixTimestamp * 1000;
-  const secondsPast = (now - date) / 1000;
+  const secondsPast = Math.floor((now - date) / 1000);
 
   if (secondsPast < 60) {
     return `${secondsPast} second${secondsPast > 1 ? "s" : ""} ago`;
