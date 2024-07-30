@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "../styles/globals.css";
 
 import { Noto_Sans } from "next/font/google";
-import { cn } from "@/lib/utils";
+import { cn } from "@/utils";
 
 import {
   BriefcaseIcon,

@@ -1,4 +1,4 @@
-import { cn } from "@/lib/utils";
+import { cn } from "@/utils";
 import { Button } from "./ui/button";
 import { ArrowDownIcon } from "./ui/icons";
 import NextLink from "next/link";

@@ -11,7 +11,7 @@ import { isCommentItem, PostTypeEnum } from "@/schemas";
 import { timeAgo } from "@/utils";
 import type { Metadata } from "next";
 import { sanitize } from "isomorphic-dompurify";
-import { cn } from "@/lib/utils";
+import { cn } from "@/utils";
 import "./page.css";
 
 type PageProps = {

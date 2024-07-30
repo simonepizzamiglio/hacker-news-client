@@ -12,7 +12,7 @@ import {
 } from "./ui/dialog";
 import { Button, Logo } from "./ui";
 import { CloseIcon, HamburgerIcon } from "./ui/icons";
-import { cn } from "@/lib/utils";
+import { cn } from "@/utils";
 
 export interface NavItem {
   icon: React.ReactNode;

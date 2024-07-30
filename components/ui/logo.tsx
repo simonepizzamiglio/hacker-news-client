@@ -1,4 +1,4 @@
-import { cn } from "@/lib/utils";
+import { cn } from "@/utils";
 import type { SVGProps } from "react";
 
 export const Logo = (props: SVGProps<SVGSVGElement>) => {
@@ -8,7 +8,7 @@ export const Logo = (props: SVGProps<SVGSVGElement>) => {
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       {...props}
-      className={cn("text-base-color h-8 w-32", props.className)}
+      className={cn("h-8 w-32 text-base-color", props.className)}
     >
       <path
         className="fill-current"
