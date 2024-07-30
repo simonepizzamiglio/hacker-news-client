@@ -11,8 +11,8 @@ test("Redirects to /new", async ({ page }) => {
 test("Lists first 20 items", async ({ page }) => {
   await page.goto(URL);
   const articlesListLocator = await page.getByLabel("Articles list");
-  const countArticles = await articlesListLocator.getByRole("listitem").count();
-  await expect(countArticles).toBe(20);
+  const countArticles = await articlesListLocator.getByRole("listitem");
+  await expect(countArticles).toHaveCount(20);
 });
 
 test("Loads more items", async ({ page }) => {
@@ -22,18 +22,12 @@ test("Loads more items", async ({ page }) => {
   const articlesListLocator = await page.getByLabel("Articles list");
 
   // Make sure skeletons are visible while loading elements
-  await expect(async () => {
-    const countArticleSkeletons = await articlesListLocator
-      .getByRole("status", { name: "Loading article" })
-      .count();
-    await expect(countArticleSkeletons).toBe(20);
-  }).toPass();
+  const countArticleSkeletons = await articlesListLocator.getByRole("status", {
+    name: "Loading article",
+  });
+  await expect(countArticleSkeletons).toHaveCount(20);
 
   // Make sure another 20 items are fetched
-  await expect(async () => {
-    const countListItems = await articlesListLocator
-      .getByRole("listitem")
-      .count();
-    await expect(countListItems).toBe(40);
-  }).toPass();
+  const countListItems = await articlesListLocator.getByRole("listitem");
+  await expect(countListItems).toHaveCount(40);
 });
