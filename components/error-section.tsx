@@ -1,4 +1,5 @@
 import { SadLine } from "./ui/icons";
+import { Button } from "@/components/ui";
 
 export function ErrorComponent() {
   return (
@@ -13,17 +14,28 @@ export function ErrorComponent() {
           Unexpected error
         </span>
         <span className="text-center text-base font-normal">
-          We&apos;re facing some issues at the moment. Please try again later.
+          We&apos;re facing some issues at the moment.
         </span>
       </div>
     </div>
   );
 }
 
-export function ErrorSection() {
+interface ErrorSectionProps {
+  reset?: () => void;
+}
+
+export function ErrorSection({ reset }: ErrorSectionProps) {
   return (
     <div className="flex h-screen flex-1 items-center justify-center">
-      <ErrorComponent />
+      <div className="flex flex-col items-center">
+        <ErrorComponent />
+        {reset && (
+          <Button variant="outline" onClick={reset}>
+            Try again
+          </Button>
+        )}
+      </div>
     </div>
   );
 }

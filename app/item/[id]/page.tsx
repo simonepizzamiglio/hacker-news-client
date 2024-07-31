@@ -13,6 +13,7 @@ import type { Metadata } from "next";
 import { sanitize } from "isomorphic-dompurify";
 import { cn } from "@/lib/utils";
 import "./page.css";
+import { NotFoundSection } from "@/components/not-found";
 
 type PageProps = {
   params: { id: string };
@@ -22,6 +23,12 @@ export async function generateMetadata({
   params,
 }: PageProps): Promise<Metadata> {
   const item = await fetchItem(Number(params.id));
+
+  if (!item) {
+    return {
+      title: "Item not found",
+    };
+  }
 
   if (
     item.type === PostTypeEnum.comment ||
@@ -38,6 +45,10 @@ export async function generateMetadata({
 
 export default async function Page({ params }: PageProps) {
   const item = await fetchItem(Number(params.id));
+
+  if (!item) {
+    return <NotFoundSection />;
+  }
 
   if (
     item.type === PostTypeEnum.comment ||
@@ -126,6 +137,10 @@ export default async function Page({ params }: PageProps) {
 
 async function Comment({ id, level }: { id: number; level: number }) {
   const item = await fetchItem(id);
+
+  if (!item) {
+    return null;
+  }
 
   if (!isCommentItem(item) || !item.text) {
     return null;

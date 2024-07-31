@@ -84,7 +84,7 @@ export async function fetchItem(id: number) {
     throw new Error("Failed to fetch data");
   }
   const unsafeRes = await res.json();
-  return PostItemSchema.parse(unsafeRes);
+  return PostItemSchema.nullable().parse(unsafeRes);
 }
 
 interface GetPageObjectParams {
