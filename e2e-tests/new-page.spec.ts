@@ -7,7 +7,9 @@ async function getInternalLink(page: Page, articlesCount: number) {
     .locator('a:not([target="_blank"])')
     .first();
 
-  if (link) {
+  const linkCount = await link.count();
+
+  if (linkCount > 0) {
     return link;
   }
 
@@ -28,7 +30,7 @@ test.describe("New page", () => {
   });
 
   test("Redirects to /new", async ({ page }) => {
-    await expect(page).toHaveURL(`${URL}/new`);
+    await expect(page).toHaveURL("/new");
     await page.getByRole("heading", { name: "New", exact: true }).isVisible();
   });
 
