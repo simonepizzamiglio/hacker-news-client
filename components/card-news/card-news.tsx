@@ -1,4 +1,4 @@
-import { exhaustiveGuard, getDomain, timeAgo } from "@/utils";
+import { exhaustiveGuard, getDomain, timeAgo } from "@/lib/utils";
 import {
   ArrowUpDoubleIcon,
   ArticleLineIcon,
@@ -8,7 +8,7 @@ import {
   ExternalLinkIcon,
   PenLineIcon,
 } from "@/components/ui";
-import { PostTypeEnum, type PostType } from "@/schemas";
+import { PostTypeEnum, type PostType } from "@/lib/schemas";
 import NextLink from "next/link";
 import { Skeleton } from "../ui/skeleton";
 

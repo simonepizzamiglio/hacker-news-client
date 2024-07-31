@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react";
 
 import { CardNews } from "./card-news";
-import { PostTypeEnum } from "@/schemas";
+import { PostTypeEnum } from "@/lib/schemas";
 
 const meta: Meta<typeof CardNews> = {
   component: CardNews,

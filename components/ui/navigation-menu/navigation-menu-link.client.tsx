@@ -5,7 +5,7 @@ import { Link as NavigationMenuPrimitiveLink } from "@radix-ui/react-navigation-
 
 import { usePathname } from "next/navigation";
 import NextLink from "next/link";
-import { cn } from "@/utils";
+import { cn } from "@/lib/utils";
 
 export const NavigationMenuLink = forwardRef<
   React.ElementRef<typeof NextLink>,

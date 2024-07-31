@@ -1,9 +1,9 @@
-import type { Page } from "@/api-lib";
-import { fetchPageItems, getItemPages } from "@/api-lib";
+import type { Page } from "@/lib/api";
+import { fetchPageItems, getItemPages } from "@/lib/api";
 import { CardNews, CardNewsSkeleton } from "@/components/card-news";
 import { LoadMoreButton } from "@/components/load-more-button";
 import { NoPosts } from "@/components/no-posts";
-import { isStoryItem, PostTypeEnum } from "@/schemas";
+import { isStoryItem, PostTypeEnum } from "@/lib/schemas";
 import type { Metadata } from "next";
 import { Suspense } from "react";
 

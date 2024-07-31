@@ -1,5 +1,5 @@
-import { PostItemSchema, PostTypeEnum } from "@/schemas";
-import { exhaustiveGuard } from "@/utils";
+import { PostItemSchema, PostTypeEnum } from "@/lib/schemas";
+import { exhaustiveGuard } from "@/lib/utils";
 import { z } from "zod";
 
 const BASE_URL = "https://hacker-news.firebaseio.com";

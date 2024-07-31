@@ -1,4 +1,4 @@
-import { fetchItem } from "@/api-lib";
+import { fetchItem } from "@/lib/api";
 import { Link } from "@/components/ui";
 import {
   ArrowUpDoubleIcon,
@@ -7,11 +7,11 @@ import {
   PenLineIcon,
   ArrowLeftIcon,
 } from "@/components/ui/icons";
-import { isCommentItem, PostTypeEnum } from "@/schemas";
-import { timeAgo } from "@/utils";
+import { isCommentItem, PostTypeEnum } from "@/lib/schemas";
+import { timeAgo } from "@/lib/utils";
 import type { Metadata } from "next";
 import { sanitize } from "isomorphic-dompurify";
-import { cn } from "@/utils";
+import { cn } from "@/lib/utils";
 import "./page.css";
 
 type PageProps = {

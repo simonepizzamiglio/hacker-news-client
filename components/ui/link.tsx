@@ -3,7 +3,7 @@ import NextLink from "next/link";
 import { buttonVariants } from "./button";
 import type { AnchorHTMLAttributes, PropsWithChildren } from "react";
 import { forwardRef } from "react";
-import { cn } from "@/utils";
+import { cn } from "@/lib/utils";
 
 type LinkProps = PropsWithChildren<
   Omit<AnchorHTMLAttributes<HTMLAnchorElement>, "href"> & NextLinkProps
