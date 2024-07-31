@@ -13,3 +13,4 @@ export * from "./external-link";
 export * from "./bar-chart";
 export * from "./arrow-down";
 export * from "./arrow-left";
+export * from "./sad-line";
