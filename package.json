@@ -13,7 +13,7 @@
     "e2e-test:report": "playwright show-report",
     "e2e-test:ui": "playwright test --ui",
     "e2e-test:debug": "npx playwright test --debug",
-    "e2e-test:codegen": "playwright codegen https://hacker-news-client-inky.vercel.app",
+    "e2e-test:codegen": "playwright codegen http://127.0.0.1:3000",
     "build-storybook": "storybook build",
     "test": "jest"
   },

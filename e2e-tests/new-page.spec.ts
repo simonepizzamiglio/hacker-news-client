@@ -1,8 +1,6 @@
 import type { Page } from "@playwright/test";
 import { test, expect } from "@playwright/test";
 
-const URL = "https://hacker-news-client-inky.vercel.app";
-
 async function getInternalLink(page: Page, articlesCount: number) {
   const articlesListLocator = await page.getByLabel("Articles list");
   const link = await articlesListLocator
@@ -23,7 +21,7 @@ async function getInternalLink(page: Page, articlesCount: number) {
 
 test.describe("New page", () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto(URL);
+    await page.goto("/");
     const loadingState = await page.getByRole("status", { name: "Loading..." });
     await loadingState.isVisible();
     await expect(loadingState).not.toBeVisible();
