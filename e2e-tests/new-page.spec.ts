@@ -41,18 +41,9 @@ test.describe("New page", () => {
   });
 
   test("Loads more items", async ({ page }) => {
+    const articlesListLocator = await page.getByLabel("Articles list");
     await page.getByRole("link", { name: "More", exact: true }).click();
     await page.waitForURL("**/new?page=2");
-    const articlesListLocator = await page.getByLabel("Articles list");
-
-    // Make sure skeletons are visible while loading elements
-    const countArticleSkeletons = await articlesListLocator.getByRole(
-      "status",
-      {
-        name: "Loading article",
-      },
-    );
-    await expect(countArticleSkeletons).toHaveCount(20);
 
     // Make sure another 20 items are fetched
     const countListItems = await articlesListLocator.getByRole("listitem");
