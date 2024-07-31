@@ -72,7 +72,7 @@ async function Page({ page }: { page: Page }) {
   return (
     <>
       {items.map((item) => {
-        if (!isStoryItem(item)) return null;
+        if (!item || !isStoryItem(item)) return null;
 
         return (
           <li key={`card-item-${item.id}`}>
