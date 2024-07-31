@@ -13,7 +13,7 @@ async function getInternalLink(page: Page, articlesCount: number) {
     return link;
   }
 
-  await page.getByRole("link", { name: "More" }).click();
+  await page.getByRole("link", { name: "More", exact: true }).click();
   const countArticles = await articlesListLocator.getByRole("listitem");
   const newArticlesCount = articlesCount + 20;
   await expect(countArticles).toHaveCount(newArticlesCount);
@@ -41,7 +41,7 @@ test.describe("New page", () => {
   });
 
   test("Loads more items", async ({ page }) => {
-    await page.getByRole("link", { name: "More" }).click();
+    await page.getByRole("link", { name: "More", exact: true }).click();
     await page.waitForURL("**/new?page=2");
     const articlesListLocator = await page.getByLabel("Articles list");
 

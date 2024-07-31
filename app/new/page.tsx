@@ -60,8 +60,8 @@ export default async function New({
             <Page page={page} />
           </Suspense>
         ))}
-        {hasMore && <LoadMoreButton nextPage={nextPage} className="mt-4" />}
       </ul>
+      {hasMore && <LoadMoreButton nextPage={nextPage} className="mt-4" />}
     </div>
   );
 }
