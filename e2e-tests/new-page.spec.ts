@@ -3,14 +3,12 @@ import { test, expect } from "@playwright/test";
 
 async function getInternalLink(page: Page, articlesCount: number) {
   const articlesListLocator = await page.getByLabel("Articles list");
-  const link = await articlesListLocator
-    .locator('a:not([target="_blank"])')
-    .first();
+  const link = await articlesListLocator.locator('a:not([target="_blank"])');
 
   const linkCount = await link.count();
 
   if (linkCount > 0) {
-    return link;
+    return link.first();
   }
 
   await page.getByRole("link", { name: "More", exact: true }).click();
