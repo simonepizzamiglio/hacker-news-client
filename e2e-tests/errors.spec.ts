@@ -1,7 +1,6 @@
 import { test, expect } from "@playwright/test";
 
-// const URL = "https://hacker-news-client-inky.vercel.app";
-const URL = "http://localhost:3000";
+const URL = "https://hacker-news-client-inky.vercel.app";
 
 test.describe("Errors", () => {
   test("Handles page not found", async ({ page }) => {
