@@ -14,6 +14,8 @@ import { sanitize } from "isomorphic-dompurify";
 import { cn } from "@/lib/utils";
 import "./page.css";
 import { NotFoundSection } from "@/components/not-found";
+import { Suspense } from "react";
+import { Skeleton } from "@/components/ui/skeleton";
 
 type PageProps = {
   params: { id: string };
@@ -123,11 +125,12 @@ export default async function Page({ params }: PageProps) {
             </p>
           </div>
           {(item.kids || []).map((kid) => (
-            <Comment
-              id={kid}
-              key={`item-${params.id}-comment-${kid}`}
-              level={0}
-            />
+            <Suspense
+              key={`item-suspense-${params.id}-comment-${kid}`}
+              fallback={<CommentSkeleton />}
+            >
+              <Comment id={kid} level={0} />
+            </Suspense>
           ))}
         </div>
       )}
@@ -170,6 +173,15 @@ async function Comment({ id, level }: { id: number; level: number }) {
           <Comment id={kid} key={`reply-${id}-kid-${kid}`} level={level + 1} />
         ))}
       </div>
+    </div>
+  );
+}
+
+function CommentSkeleton() {
+  return (
+    <div className="relative flex flex-col gap-3 pt-4">
+      <Skeleton className="flex h-[15px] w-[150px] gap-x-1" />
+      <Skeleton className="h-[80px] w-full" />
     </div>
   );
 }

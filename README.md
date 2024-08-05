@@ -8,7 +8,6 @@ Modern Hacker News client which offers an improved user interface while displayi
 | --------------------------- | -------|
 | New page                    |   ✅   |
 | Article page                |   ✅   |
-| Article skeletons           |   ❌   |
 | Poll page                   |   ❌   |
 | Ask page                    |   ❌   |
 | Jobs page                   |   ❌   |
