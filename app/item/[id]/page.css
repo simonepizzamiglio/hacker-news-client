@@ -24,3 +24,10 @@
   transform: rotate(90deg);
   @apply bg-neutral-300;
 }
+
+.comment-text pre,
+.comment-text code,
+.comment-text p {
+  text-wrap: wrap;
+  word-break: break-word;
+}

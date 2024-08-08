@@ -6,7 +6,7 @@ import {
   Link,
   PenLineIcon,
 } from "./ui";
-import { cn, timeAgo } from "@/lib/utils";
+import { cn, getDomain, timeAgo } from "@/lib/utils";
 import { sanitize } from "isomorphic-dompurify";
 import type { PropsWithChildren, ReactNode } from "react";
 import { Skeleton } from "./ui/skeleton";
@@ -18,10 +18,12 @@ interface PostItemProps extends PropsWithChildren {
   time: number;
   descendants: number;
   text?: string;
+  link?: string;
 }
 
 export function PostItem({
   title,
+  link,
   score,
   by,
   time,
@@ -29,6 +31,8 @@ export function PostItem({
   text,
   children,
 }: PostItemProps) {
+  const domain = link ? getDomain(link) : undefined;
+
   return (
     <div className="flex flex-col items-stretch gap-y-12">
       <div className="flex items-center gap-4 self-stretch">
@@ -40,9 +44,22 @@ export function PostItem({
           <span className="text-sm font-medium">Back</span>
         </Link>
       </div>
-      <div className="flex flex-col items-stretch">
+      <article className="flex flex-col items-stretch">
         <div className="flex flex-col gap-4 self-stretch">
-          <h1 className="text-4xl font-semibold">{title}</h1>
+          <div className="flex items-center gap-2">
+            <h1 className="text-4xl font-semibold">
+              {link ? (
+                <a href={link} target="_blank" className="hover:underline">
+                  {title}
+                </a>
+              ) : (
+                title
+              )}
+            </h1>
+            {domain && (
+              <span className="text-sm font-normal text-light">({domain})</span>
+            )}
+          </div>
           <div className="flex flex-wrap items-center gap-3">
             <div className="flex items-center gap-1">
               <ArrowUpDoubleIcon className="h-4 w-4" />
@@ -75,7 +92,7 @@ export function PostItem({
             </div>
           </div>
         </div>
-      </div>
+      </article>
       {text && (
         <div
           className="text-lg text-light"
@@ -96,7 +113,7 @@ interface CommentProps extends PropsWithChildren {
 
 function Comment({ level, by, time, text, children }: CommentProps) {
   return (
-    <div
+    <li
       className={cn("relative flex flex-col gap-3 py-4", {
         "comment py-2 pl-5": level !== 0,
         "border-b-2": level === 0,
@@ -113,11 +130,11 @@ function Comment({ level, by, time, text, children }: CommentProps) {
       {text && (
         <div
           dangerouslySetInnerHTML={{ __html: sanitize(text) }}
-          className="text-wrap text-sm"
+          className="comment-text text-wrap text-sm"
         />
       )}
-      {children && <div className="relative">{children}</div>}
-    </div>
+      {children && <ul className="relative">{children}</ul>}
+    </li>
   );
 }
 
@@ -129,22 +146,80 @@ function CommentsContainer({
   descendants: number;
 }) {
   return (
-    <div>
+    <div data-testid="comments-section">
       <div className="border-t-2 py-4">
         <p className="font-medium">
           {`${descendants} comment${descendants > 1 ? "s" : ""}`}
         </p>
       </div>
-      {children}
+      {children ? <ul>{children}</ul> : undefined}
     </div>
   );
 }
 
 function CommentSkeleton() {
   return (
-    <div className="relative flex flex-col gap-3 py-4">
+    <li className="relative flex flex-col gap-3 py-4">
       <Skeleton className="flex h-[15px] w-[150px] gap-x-1" />
       <Skeleton className="h-[80px] w-full" />
+    </li>
+  );
+}
+
+interface PollProps {
+  items: {
+    votes: number;
+    label: string;
+  }[];
+}
+
+let pollItemId = 0;
+let pollItemSkeletonId = 0;
+const POLL_ITEM_HEIGHT_CLASSNAME = "h-[36px]";
+
+function percentage(partialValue: number, totalValue: number) {
+  return Number((100 * partialValue) / totalValue).toFixed(2);
+}
+
+function Poll({ items }: PollProps) {
+  const votesCount = items.reduce((count, item) => count + item.votes, 0);
+  const maxVotesCount = Math.max(...items.map((item) => item.votes));
+  const pointsColWidth = 50 + String(maxVotesCount).length * 12;
+
+  return (
+    <div className="flex w-full flex-col gap-y-2">
+      {items.map((item) => (
+        <div key={`poll-item-${pollItemId++}`} className="flex w-full gap-x-2">
+          <div className="flex-grow-1 flex-shrink-1 relative flex h-[36px] w-full px-2">
+            <div
+              style={{ width: `${percentage(item.votes, votesCount)}%` }}
+              className={`absolute left-0 top-0 z-0 ${POLL_ITEM_HEIGHT_CLASSNAME} rounded bg-orange-200`}
+            />
+            <span className="relative z-10 self-center text-sm">
+              {item.label}
+            </span>
+          </div>
+          <span
+            className="flex-shrink-0 text-right"
+            style={{ width: pointsColWidth }}
+          >
+            {item.votes} {`point${item.votes === 1 ? "" : "s"}`}
+          </span>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function PollSkeleton({ count }: { count: number }) {
+  return (
+    <div className="flex w-full flex-col gap-y-2">
+      {[...new Array(count)].map(() => (
+        <Skeleton
+          className={`${POLL_ITEM_HEIGHT_CLASSNAME} w-full`}
+          key={`poll-item-${pollItemSkeletonId++}`}
+        />
+      ))}
     </div>
   );
 }
@@ -152,3 +227,5 @@ function CommentSkeleton() {
 PostItem.Comment = Comment;
 PostItem.CommentsContainer = CommentsContainer;
 PostItem.CommentSkeleton = CommentSkeleton;
+PostItem.Poll = Poll;
+PostItem.PollSkeleton = PollSkeleton;
