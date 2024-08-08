@@ -15,6 +15,9 @@ describe("getDomain", () => {
       getDomain(
         "https://learn.microsoft.com/it-it/windows/dev-environment/javascript/react-overview",
       ),
-    ).toBe("microsoft.com");
+    ).toBe("learn.microsoft.com");
+  });
+  test("https://www.bbc.co.uk/", () => {
+    expect(getDomain("https://www.bbc.co.uk/")).toBe("bbc.co.uk");
   });
 });
