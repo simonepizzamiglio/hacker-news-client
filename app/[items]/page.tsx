@@ -15,25 +15,37 @@ import { Suspense } from "react";
 import { notFound } from "next/navigation";
 import { exhaustiveGuard } from "@/lib/utils";
 
-export const metadata: Metadata = {
-  title: "New Link | Hacker news",
-};
-
-const oneMinute = 60;
-export const revalidate = oneMinute * 15; // revalidate every 15 mins
-
-export default async function Items({
-  searchParams,
-  params,
-}: {
+type PageProps = {
   params: { items: string };
   searchParams: { page?: string };
-}) {
+};
+
+export async function generateMetadata({
+  params,
+}: PageProps): Promise<Metadata> {
   const { items = "" } = params;
   const safeItemsType = ItemsTypeSchema.safeParse(items);
 
   if (!safeItemsType.success) {
-    notFound();
+    return {
+      title: "Not found",
+    };
+  }
+
+  return {
+    title: "New Link | Hacker news",
+  };
+}
+
+const oneMinute = 60;
+export const revalidate = oneMinute * 15; // revalidate every 15 mins
+
+export default async function Items({ searchParams, params }: PageProps) {
+  const { items = "" } = params;
+  const safeItemsType = ItemsTypeSchema.safeParse(items);
+
+  if (!safeItemsType.success) {
+    return notFound();
   }
   const itemTypes = safeItemsType.data;
   const currentPage = parseInt(searchParams.page ?? "1", 10);
