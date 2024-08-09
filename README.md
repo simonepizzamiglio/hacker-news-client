@@ -36,6 +36,7 @@ Modern Hacker News client which offers an improved user interface while displayi
 ### What pagination UX should be used for the feed?
 
 Display 20 items per page, with a simple 'More' button to load the next 20 items.
+The same applies to comments.
 
 ### Will the application be used on mobile devices?
 
@@ -66,6 +67,20 @@ Traditional web applications have multiple choices on where to render the conten
 As we are using Next.js, for this app we can achieve everything we need by using SSR.
 
 More on rendering approach: <https://web.dev/articles/rendering-on-the-web>
+
+#### Rendering components
+
+- **Article**: Articles come in different types (such as story, job, comment, poll, and poll option), each with slightly different UIs. Additionally, some elements, like comments, may be loaded asynchronously. To create a component that adapts to these varying scenarios, we can use namespaced components, for example:
+
+```ts
+<PostItem>
+  </PostItem.Content>
+    Lorem ipsum odor amet, consectetuer adipiscing elit. Nisi purus iaculis iaculis magna mus imperdiet at.
+  <PostItem.Content>
+  <PostItem.Poll items={[...]} /> // This will be only displayed for poll articles
+  <PostItem.Coments comments={[...]} />
+</PostItem>
+```
 
 ## Data model
 
