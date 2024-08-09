@@ -9,9 +9,9 @@ Modern Hacker News client which offers an improved user interface while displayi
 | New page                    |   ✅   |
 | Article page                |   ✅   |
 | Poll page                   |   ✅   |
-| Ask page                    |   ❌   |
-| Jobs page                   |   ❌   |
-| Show page                   |   ❌   |
+| Ask page                    |   ✅   |
+| Jobs page                   |   ✅   |
+| Show page                   |   ✅   |
 | 404 page                    |   ✅   |
 | Real-time timestamp updates |   ❌   |
 | Handle errors               |   ✅   |
