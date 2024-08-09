@@ -1,12 +1,10 @@
-import { PostItemSchema, PostTypeEnum } from "@/lib/schemas";
+import { PostItemSchema } from "@/lib/schemas";
 import { exhaustiveGuard } from "@/lib/utils";
 import { z } from "zod";
 
 const BASE_URL = "https://hacker-news.firebaseio.com";
 const API_VERSION = "v0";
 const API_URL = `${BASE_URL}/${API_VERSION}`;
-
-type SupportedItemTypes = typeof PostTypeEnum.story | typeof PostTypeEnum.job;
 
 const PageSchema = z.object({
   pagination: z.object({
@@ -35,11 +33,19 @@ function getIdsByPage(items: number[]) {
   return pages;
 }
 
-function getItemsUrl(type: SupportedItemTypes) {
+export const ItemsTypeSchema = z.enum(["new", "ask", "show", "jobs"]);
+export const ItemsTypeEnum = ItemsTypeSchema.enum;
+export type ItemsType = z.infer<typeof ItemsTypeSchema>;
+
+function getItemsUrl(type: ItemsType) {
   switch (type) {
-    case PostTypeEnum.story:
+    case ItemsTypeEnum.new:
       return `${API_URL}/newstories.json`;
-    case PostTypeEnum.job:
+    case ItemsTypeEnum.ask:
+      return `${API_URL}/askstories.json`;
+    case ItemsTypeEnum.show:
+      return `${API_URL}/showstories.json`;
+    case ItemsTypeEnum.jobs:
       return `${API_URL}/jobstories.json`;
     default:
       return exhaustiveGuard(type);
@@ -50,8 +56,9 @@ const getNewStoryIdsError = "Failed to fetch top stories";
 /**
  * @returns List of story IDs
  */
-async function getItemIds(type: SupportedItemTypes) {
+async function getItemIds(type: ItemsType) {
   try {
+    ItemsTypeEnum;
     const url = getItemsUrl(type);
     const res = await fetch(url);
     // The return value is *not* serialized
@@ -136,7 +143,7 @@ export async function fetchPageItems(page: Page) {
  * @description
  * Given a page number, it retrieves the data up to that page, starting from the first page.
  */
-export async function getItemPages(type: SupportedItemTypes): Promise<Page[]> {
+export async function getItemPages(type: ItemsType): Promise<Page[]> {
   const storyIds = await getItemIds(type);
   const pageArrays = getIdsByPage(storyIds);
   const totalItems = storyIds.length;

@@ -1,0 +1,6 @@
+.article-text a {
+  color: hsl(var(--primary));
+}
+.article-text a:hover {
+  text-decoration: underline;
+}

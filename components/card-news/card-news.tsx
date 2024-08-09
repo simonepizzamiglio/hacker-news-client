@@ -17,13 +17,13 @@ const iconClassName = "h-5 w-5";
 function getIcon(postType: PostType, isExternalLink: boolean) {
   switch (postType) {
     case PostTypeEnum.story:
+    case PostTypeEnum.job:
       if (isExternalLink) {
         return <ExternalLinkIcon className={iconClassName} />;
       }
       return <ArticleLineIcon className={iconClassName} />;
     case PostTypeEnum.poll:
       return <BarChartIcon className={iconClassName} />;
-    case PostTypeEnum.job:
     case PostTypeEnum.pollopt:
     case PostTypeEnum.comment:
       return <></>;
@@ -32,15 +32,15 @@ function getIcon(postType: PostType, isExternalLink: boolean) {
   }
 }
 
-interface CardNewsProps {
+export interface CardNewsProps {
   id: number;
   title: string;
-  href?: string;
-  points: number;
-  by: string;
   timestamp: number;
-  commentsCount: number;
   postType: PostType;
+  href?: string;
+  points?: number;
+  by?: string;
+  commentsCount?: number;
 }
 
 export function CardNews({
@@ -61,7 +61,6 @@ export function CardNews({
       <NextLink
         href={href || `/item/${id}`}
         target={isExternalLink ? "_blank" : undefined}
-        replace
         className="flex flex-1 gap-4 px-0 py-6 hover:bg-primary-foreground hover:no-underline"
       >
         <div className="flex h-10 w-10 items-center justify-center gap-2 rounded-full bg-stone-50 p-2">
@@ -82,35 +81,45 @@ export function CardNews({
             )}
           </div>
           <div className="flex flex-wrap items-center gap-3">
-            <div className="flex items-center gap-1">
-              <ArrowUpDoubleIcon className="h-4 w-4" />
-              <div className="flex items-center gap-0.5">
-                <span className="text-xs font-normal text-light">{points}</span>
-                <span className="text-xs font-normal text-light">points</span>
+            {points && (
+              <div className="flex items-center gap-1">
+                <ArrowUpDoubleIcon className="h-4 w-4" />
+                <div className="flex items-center gap-0.5">
+                  <span className="text-xs font-normal text-light">
+                    {points}
+                  </span>
+                  <span className="text-xs font-normal text-light">points</span>
+                </div>
               </div>
-            </div>
-            <div className="flex items-center gap-1">
-              <PenLineIcon className="h-4 w-4" />
-              <div className="flex items-center gap-0.5">
-                <span className="text-xs font-normal text-light">by</span>
-                <span className="text-xs font-medium text-primary">{by}</span>
+            )}
+            {by && (
+              <div className="flex items-center gap-1">
+                <PenLineIcon className="h-4 w-4" />
+                <div className="flex items-center gap-0.5">
+                  <span className="text-xs font-normal text-light">by</span>
+                  <span className="text-xs font-medium text-primary">{by}</span>
+                </div>
               </div>
-            </div>
+            )}
             <div className="flex items-center gap-1">
               <ClockLineIcon className="h-4 w-4" />
               <time className="text-xs font-normal text-light">
                 {timeAgo(timestamp)}
               </time>
             </div>
-            <div className="flex items-center gap-1">
-              <ChatLineIcon className="h-4 w-4" />
-              <div className="flex items-center gap-0.5">
-                <span className="text-xs font-normal text-light">
-                  {commentsCount}
-                </span>
-                <span className="text-xs font-normal text-light">comments</span>
+            {commentsCount && (
+              <div className="flex items-center gap-1">
+                <ChatLineIcon className="h-4 w-4" />
+                <div className="flex items-center gap-0.5">
+                  <span className="text-xs font-normal text-light">
+                    {commentsCount}
+                  </span>
+                  <span className="text-xs font-normal text-light">
+                    comments
+                  </span>
+                </div>
               </div>
-            </div>
+            )}
           </div>
         </div>
       </NextLink>

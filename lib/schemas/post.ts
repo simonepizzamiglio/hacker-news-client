@@ -59,6 +59,7 @@ export const JobItemSchema = BaseItemSchema.extend({
   title: z.string().describe(descObj.title),
   url: z.string().optional().describe(descObj.url),
 });
+export type JobItem = z.infer<typeof JobItemSchema>;
 
 export const PollItemSchema = BaseItemSchema.extend({
   type: z.literal(PostTypeEnum.poll),
@@ -90,6 +91,10 @@ export type PostItem = z.infer<typeof PostItemSchema>;
 
 export function isStoryItem(item: PostItem): item is StoryItem {
   return item.type === PostTypeEnum.story;
+}
+
+export function isJobItem(item: PostItem): item is JobItem {
+  return item.type === PostTypeEnum.job;
 }
 
 export function isCommentItem(item: PostItem): item is CommentItem {

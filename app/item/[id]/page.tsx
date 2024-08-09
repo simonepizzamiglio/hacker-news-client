@@ -100,9 +100,17 @@ export default async function Page({ params }: PageProps) {
           )}
         </PostItem>
       );
+    case PostTypeEnum.job:
+      return (
+        <PostItem
+          title={item.title}
+          time={item.time}
+          text={item.text}
+          link={item.url}
+        />
+      );
     case PostTypeEnum.comment:
     case PostTypeEnum.pollopt:
-    case PostTypeEnum.job:
       return <></>;
     default:
       return exhaustiveGuard(type);

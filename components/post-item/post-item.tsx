@@ -1,22 +1,23 @@
 import {
-  ArrowLeftIcon,
   ArrowUpDoubleIcon,
   ChatLineIcon,
   ClockLineIcon,
-  Link,
   PenLineIcon,
-} from "./ui";
+} from "../ui";
 import { cn, getDomain, timeAgo } from "@/lib/utils";
 import { sanitize } from "isomorphic-dompurify";
 import type { PropsWithChildren, ReactNode } from "react";
-import { Skeleton } from "./ui/skeleton";
+import { Skeleton } from "../ui/skeleton";
+import "./post-item.css";
+import { BackButton } from "../back-button";
+import Link from "next/link";
 
 interface PostItemProps extends PropsWithChildren {
   title: string;
-  score: number;
-  by: string;
   time: number;
-  descendants: number;
+  score?: number;
+  by?: string;
+  descendants?: number;
   text?: string;
   link?: string;
 }
@@ -36,22 +37,16 @@ export function PostItem({
   return (
     <div className="flex flex-col items-stretch gap-y-12">
       <div className="flex items-center gap-4 self-stretch">
-        <Link
-          href="../../"
-          className="flex items-center justify-center gap-1 pl-0 text-primary hover:text-orange-800 hover:no-underline"
-        >
-          <ArrowLeftIcon />
-          <span className="text-sm font-medium">Back</span>
-        </Link>
+        <BackButton />
       </div>
       <article className="flex flex-col items-stretch">
         <div className="flex flex-col gap-4 self-stretch">
           <div className="flex items-center gap-2">
             <h1 className="text-4xl font-semibold">
               {link ? (
-                <a href={link} target="_blank" className="hover:underline">
+                <Link href={link} target="_blank" className="hover:underline">
                   {title}
-                </a>
+                </Link>
               ) : (
                 title
               )}
@@ -61,41 +56,51 @@ export function PostItem({
             )}
           </div>
           <div className="flex flex-wrap items-center gap-3">
-            <div className="flex items-center gap-1">
-              <ArrowUpDoubleIcon className="h-4 w-4" />
-              <div className="flex items-center gap-0.5">
-                <span className="text-xs font-normal text-light">{score}</span>
-                <span className="text-xs font-normal text-light">points</span>
+            {score && (
+              <div className="flex items-center gap-1">
+                <ArrowUpDoubleIcon className="h-4 w-4" />
+                <div className="flex items-center gap-0.5">
+                  <span className="text-xs font-normal text-light">
+                    {score}
+                  </span>
+                  <span className="text-xs font-normal text-light">points</span>
+                </div>
               </div>
-            </div>
-            <div className="flex items-center gap-1">
-              <PenLineIcon className="h-4 w-4" />
-              <div className="flex items-center gap-0.5">
-                <span className="text-xs font-normal text-light">by</span>
-                <span className="text-xs font-medium text-primary">{by}</span>
+            )}
+            {by && (
+              <div className="flex items-center gap-1">
+                <PenLineIcon className="h-4 w-4" />
+                <div className="flex items-center gap-0.5">
+                  <span className="text-xs font-normal text-light">by</span>
+                  <span className="text-xs font-medium text-primary">{by}</span>
+                </div>
               </div>
-            </div>
+            )}
             <div className="flex items-center gap-1">
               <ClockLineIcon className="h-4 w-4" />
               <time className="text-xs font-normal text-light">
                 {timeAgo(time)}
               </time>
             </div>
-            <div className="flex items-center gap-1">
-              <ChatLineIcon className="h-4 w-4" />
-              <div className="flex items-center gap-0.5">
-                <span className="text-xs font-normal text-light">
-                  {descendants}
-                </span>
-                <span className="text-xs font-normal text-light">comments</span>
+            {descendants && (
+              <div className="flex items-center gap-1">
+                <ChatLineIcon className="h-4 w-4" />
+                <div className="flex items-center gap-0.5">
+                  <span className="text-xs font-normal text-light">
+                    {descendants}
+                  </span>
+                  <span className="text-xs font-normal text-light">
+                    comments
+                  </span>
+                </div>
               </div>
-            </div>
+            )}
           </div>
         </div>
       </article>
       {text && (
         <div
-          className="text-lg text-light"
+          className="article-text flex flex-col gap-2 text-lg text-light"
           dangerouslySetInnerHTML={{ __html: sanitize(text) }}
         />
       )}
