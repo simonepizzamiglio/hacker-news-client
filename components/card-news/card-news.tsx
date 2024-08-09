@@ -1,16 +1,13 @@
-import { exhaustiveGuard, getDomain, timeAgo } from "@/lib/utils";
+import { exhaustiveGuard, getDomain } from "@/lib/utils";
 import {
-  ArrowUpDoubleIcon,
   ArticleLineIcon,
   BarChartIcon,
-  ChatLineIcon,
-  ClockLineIcon,
   ExternalLinkIcon,
-  PenLineIcon,
 } from "@/components/ui";
 import { PostTypeEnum, type PostType } from "@/lib/schemas";
 import NextLink from "next/link";
 import { Skeleton } from "../ui/skeleton";
+import { PostInfo } from "../post-info";
 
 const iconClassName = "h-5 w-5";
 
@@ -80,47 +77,12 @@ export function CardNews({
               <span className="text-xs font-normal text-light">({domain})</span>
             )}
           </div>
-          <div className="flex flex-wrap items-center gap-3">
-            {points && (
-              <div className="flex items-center gap-1">
-                <ArrowUpDoubleIcon className="h-4 w-4" />
-                <div className="flex items-center gap-0.5">
-                  <span className="text-xs font-normal text-light">
-                    {points}
-                  </span>
-                  <span className="text-xs font-normal text-light">points</span>
-                </div>
-              </div>
-            )}
-            {by && (
-              <div className="flex items-center gap-1">
-                <PenLineIcon className="h-4 w-4" />
-                <div className="flex items-center gap-0.5">
-                  <span className="text-xs font-normal text-light">by</span>
-                  <span className="text-xs font-medium text-primary">{by}</span>
-                </div>
-              </div>
-            )}
-            <div className="flex items-center gap-1">
-              <ClockLineIcon className="h-4 w-4" />
-              <time className="text-xs font-normal text-light">
-                {timeAgo(timestamp)}
-              </time>
-            </div>
-            {commentsCount && (
-              <div className="flex items-center gap-1">
-                <ChatLineIcon className="h-4 w-4" />
-                <div className="flex items-center gap-0.5">
-                  <span className="text-xs font-normal text-light">
-                    {commentsCount}
-                  </span>
-                  <span className="text-xs font-normal text-light">
-                    comments
-                  </span>
-                </div>
-              </div>
-            )}
-          </div>
+          <PostInfo
+            time={timestamp}
+            score={points}
+            by={by}
+            commentsCount={commentsCount}
+          />
         </div>
       </NextLink>
     </article>

@@ -1,9 +1,3 @@
-import {
-  ArrowUpDoubleIcon,
-  ChatLineIcon,
-  ClockLineIcon,
-  PenLineIcon,
-} from "../ui";
 import { cn, getDomain, timeAgo } from "@/lib/utils";
 import { sanitize } from "isomorphic-dompurify";
 import type { PropsWithChildren, ReactNode } from "react";
@@ -11,6 +5,7 @@ import { Skeleton } from "../ui/skeleton";
 import "./post-item.css";
 import { BackButton } from "../back-button";
 import Link from "next/link";
+import { PostInfo } from "../post-info";
 
 interface PostItemProps extends PropsWithChildren {
   title: string;
@@ -55,47 +50,12 @@ export function PostItem({
               <span className="text-sm font-normal text-light">({domain})</span>
             )}
           </div>
-          <div className="flex flex-wrap items-center gap-3">
-            {score && (
-              <div className="flex items-center gap-1">
-                <ArrowUpDoubleIcon className="h-4 w-4" />
-                <div className="flex items-center gap-0.5">
-                  <span className="text-xs font-normal text-light">
-                    {score}
-                  </span>
-                  <span className="text-xs font-normal text-light">points</span>
-                </div>
-              </div>
-            )}
-            {by && (
-              <div className="flex items-center gap-1">
-                <PenLineIcon className="h-4 w-4" />
-                <div className="flex items-center gap-0.5">
-                  <span className="text-xs font-normal text-light">by</span>
-                  <span className="text-xs font-medium text-primary">{by}</span>
-                </div>
-              </div>
-            )}
-            <div className="flex items-center gap-1">
-              <ClockLineIcon className="h-4 w-4" />
-              <time className="text-xs font-normal text-light">
-                {timeAgo(time)}
-              </time>
-            </div>
-            {descendants && (
-              <div className="flex items-center gap-1">
-                <ChatLineIcon className="h-4 w-4" />
-                <div className="flex items-center gap-0.5">
-                  <span className="text-xs font-normal text-light">
-                    {descendants}
-                  </span>
-                  <span className="text-xs font-normal text-light">
-                    comments
-                  </span>
-                </div>
-              </div>
-            )}
-          </div>
+          <PostInfo
+            time={time}
+            score={score}
+            by={by}
+            commentsCount={descendants}
+          />
         </div>
       </article>
       {text && (
