@@ -4,11 +4,8 @@ const date = 1722346820418; // Tue Jul 30 2024 15:40:20 GMT+0200 (Central Europe
 jest.useFakeTimers().setSystemTime(new Date(date));
 
 describe("timeAgo", () => {
-  test("1 second ago", () => {
-    expect(timeAgo(1722346819)).toBe("1 second ago");
-  });
-  test("30 seconds ago", () => {
-    expect(timeAgo(1722346790)).toBe("30 seconds ago");
+  test("Less than a minute ago", () => {
+    expect(timeAgo(1722346819)).toBe("Less than a minute ago");
   });
   test("1 minute ago", () => {
     expect(timeAgo(1722346711)).toBe("1 minute ago");

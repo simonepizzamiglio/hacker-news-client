@@ -4,7 +4,7 @@ export function timeAgo(unixTimestamp: number) {
   const secondsPast = Math.floor((now - date) / 1000);
 
   if (secondsPast < 60) {
-    return `${secondsPast} second${secondsPast > 1 ? "s" : ""} ago`;
+    return "Less than a minute ago";
   }
   if (secondsPast < 3600) {
     const minutes = Math.floor(secondsPast / 60);
