@@ -123,7 +123,7 @@ async function Page({ page }: { page: Page }) {
   );
 }
 
-export function getHeadings(itemsType: ItemsType): {
+function getHeadings(itemsType: ItemsType): {
   title: string;
   subtitle: string;
 } {
