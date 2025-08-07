@@ -8,6 +8,7 @@ import Link from "next/link";
 import { PostInfo } from "../post-info";
 
 interface PostItemProps extends PropsWithChildren {
+  id: number;
   title: string;
   time: number;
   score?: number;
@@ -18,6 +19,7 @@ interface PostItemProps extends PropsWithChildren {
 }
 
 export function PostItem({
+  id,
   title,
   link,
   score,
@@ -51,6 +53,7 @@ export function PostItem({
             )}
           </div>
           <PostInfo
+            id={id}
             time={time}
             score={score}
             by={by}

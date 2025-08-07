@@ -50,6 +50,7 @@ export default async function Page({ params }: PageProps) {
     case PostTypeEnum.story:
       return (
         <PostItem
+          id={item.id}
           title={item.title}
           score={item.score}
           by={item.by}
@@ -69,6 +70,7 @@ export default async function Page({ params }: PageProps) {
     case PostTypeEnum.poll:
       return (
         <PostItem
+          id={item.id}
           title={item.title}
           score={item.score}
           by={item.by}
@@ -92,6 +94,7 @@ export default async function Page({ params }: PageProps) {
     case PostTypeEnum.job:
       return (
         <PostItem
+          id={item.id}
           title={item.title}
           time={item.time}
           text={item.text}
@@ -105,7 +108,6 @@ export default async function Page({ params }: PageProps) {
       return exhaustiveGuard(type);
   }
 }
-
 
 async function AsyncPoll({ ids }: { ids: number[] }) {
   const pollOptions = await fetchItems(ids);
