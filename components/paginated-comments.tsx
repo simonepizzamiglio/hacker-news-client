@@ -4,6 +4,7 @@ import { fetchItem } from "@/lib/api";
 import { isCommentItem, type CommentItem } from "@/lib/schemas";
 import { PostItem } from "./post-item";
 import { Suspense, useState, useCallback, useEffect } from "react";
+import { Button } from "./ui";
 
 interface PaginatedCommentsProps {
   initialCommentIds: number[];
@@ -12,26 +13,28 @@ interface PaginatedCommentsProps {
 
 const INITIAL_COMMENTS_COUNT = 10;
 const COMMENTS_PAGE_SIZE = 10;
-const INITIAL_REPLIES_COUNT = 1;
 const REPLIES_PAGE_SIZE = 5;
 
-export function PaginatedComments({ initialCommentIds, descendants }: PaginatedCommentsProps) {
+export function PaginatedComments({
+  initialCommentIds,
+  descendants,
+}: PaginatedCommentsProps) {
   const [visibleCommentIds, setVisibleCommentIds] = useState(
-    initialCommentIds.slice(0, INITIAL_COMMENTS_COUNT)
+    initialCommentIds.slice(0, INITIAL_COMMENTS_COUNT),
   );
   const [isLoadingMore, setIsLoadingMore] = useState(false);
 
   const loadMoreComments = useCallback(async () => {
     if (isLoadingMore) return;
-    
+
     setIsLoadingMore(true);
     const currentCount = visibleCommentIds.length;
     const nextBatch = initialCommentIds.slice(
       currentCount,
-      currentCount + COMMENTS_PAGE_SIZE
+      currentCount + COMMENTS_PAGE_SIZE,
     );
-    
-    setVisibleCommentIds(prev => [...prev, ...nextBatch]);
+
+    setVisibleCommentIds((prev) => [...prev, ...nextBatch]);
     setIsLoadingMore(false);
   }, [initialCommentIds, visibleCommentIds.length, isLoadingMore]);
 
@@ -48,15 +51,17 @@ export function PaginatedComments({ initialCommentIds, descendants }: PaginatedC
         </Suspense>
       ))}
       {hasMoreComments && (
-        <div className="py-4 border-t">
-          <button
+        <div className="border-t py-4">
+          <Button
+            variant="link"
             onClick={loadMoreComments}
             disabled={isLoadingMore}
-            className="px-4 py-2 text-sm font-medium text-orange-600 hover:text-orange-800 disabled:opacity-50 disabled:cursor-not-allowed"
             aria-label={`Load more comments (${initialCommentIds.length - visibleCommentIds.length} remaining)`}
           >
-            {isLoadingMore ? "Loading..." : `Load More Comments (${initialCommentIds.length - visibleCommentIds.length} remaining)`}
-          </button>
+            {isLoadingMore
+              ? "Loading..."
+              : `Load More Comments (${initialCommentIds.length - visibleCommentIds.length} remaining)`}
+          </Button>
         </div>
       )}
     </PostItem.CommentsContainer>
@@ -79,9 +84,12 @@ function PaginatedComment({ id, level }: PaginatedCommentProps) {
     fetchItem(id).then((item) => {
       if (item && isCommentItem(item) && item.text) {
         setComment(item);
-        // Load first reply initially
-        if (item.kids && item.kids.length > 0) {
-          setVisibleReplyIds(item.kids.slice(0, INITIAL_REPLIES_COUNT));
+        // If there are less than 3 replies, show them all
+        if (item.kids && item.kids.length <= 2) {
+          setVisibleReplyIds(item.kids.slice(0, 3));
+          // Otherwise, show only the first one
+        } else if (item.kids && item.kids.length > 0) {
+          setVisibleReplyIds(item.kids.slice(0, 1));
         }
       }
       setIsLoading(false);
@@ -90,15 +98,15 @@ function PaginatedComment({ id, level }: PaginatedCommentProps) {
 
   const loadMoreReplies = useCallback(async () => {
     if (!comment?.kids || isLoadingReplies) return;
-    
+
     setIsLoadingReplies(true);
     const currentCount = visibleReplyIds.length;
     const nextBatch = comment.kids.slice(
       currentCount,
-      currentCount + REPLIES_PAGE_SIZE
+      currentCount + REPLIES_PAGE_SIZE,
     );
-    
-    setVisibleReplyIds(prev => [...prev, ...nextBatch]);
+
+    setVisibleReplyIds((prev) => [...prev, ...nextBatch]);
     setIsLoadingReplies(false);
   }, [comment?.kids, visibleReplyIds.length, isLoadingReplies]);
 
@@ -110,7 +118,8 @@ function PaginatedComment({ id, level }: PaginatedCommentProps) {
     return null;
   }
 
-  const hasMoreReplies = comment.kids && visibleReplyIds.length < comment.kids.length;
+  const hasMoreReplies =
+    comment.kids && visibleReplyIds.length < comment.kids.length;
 
   return (
     <PostItem.Comment
@@ -128,14 +137,16 @@ function PaginatedComment({ id, level }: PaginatedCommentProps) {
       ))}
       {hasMoreReplies && (
         <li className="py-2 pl-5">
-          <button
+          <Button
+            variant="link"
             onClick={loadMoreReplies}
             disabled={isLoadingReplies}
-            className="px-3 py-1 text-xs font-medium text-orange-600 hover:text-orange-800 disabled:opacity-50 disabled:cursor-not-allowed"
             aria-label={`Load more replies (${comment.kids!.length - visibleReplyIds.length} remaining)`}
           >
-            {isLoadingReplies ? "Loading..." : `Load More Replies (${comment.kids!.length - visibleReplyIds.length})`}
-          </button>
+            {isLoadingReplies
+              ? "Loading..."
+              : `Load More Replies (${comment.kids!.length - visibleReplyIds.length})`}
+          </Button>
         </li>
       )}
     </PostItem.Comment>

@@ -1,14 +1,22 @@
 import { ArrowUpDoubleIcon, ChatLineIcon, PenLineIcon } from "./ui/icons";
 import { TimeAgo } from "./time-ago";
+import NextLink from "next/link";
 
 interface PostInfoProps {
+  id: number;
   time: number;
   score?: number;
   by?: string;
   commentsCount?: number;
 }
 
-export function PostInfo({ time, score, by, commentsCount }: PostInfoProps) {
+export function PostInfo({
+  id,
+  time,
+  score,
+  by,
+  commentsCount,
+}: PostInfoProps) {
   return (
     <div className="flex flex-wrap items-center gap-3">
       {score && (
@@ -31,15 +39,17 @@ export function PostInfo({ time, score, by, commentsCount }: PostInfoProps) {
       )}
       <TimeAgo time={time} />
       {commentsCount && commentsCount > 0 ? (
-        <div className="flex items-center gap-1">
-          <ChatLineIcon className="h-4 w-4" />
-          <div className="flex items-center gap-0.5">
-            <span className="text-xs font-normal text-light">
-              {commentsCount}
-            </span>
-            <span className="text-xs font-normal text-light">comments</span>
+        <NextLink href={`/item/${id}`} className="z-10 hover:underline">
+          <div className="flex items-center gap-1">
+            <ChatLineIcon className="h-4 w-4" />
+            <div className="flex items-center gap-0.5">
+              <span className="text-xs font-normal text-light">
+                {commentsCount}
+              </span>
+              <span className="text-xs font-normal text-light">comments</span>
+            </div>
           </div>
-        </div>
+        </NextLink>
       ) : null}
     </div>
   );
