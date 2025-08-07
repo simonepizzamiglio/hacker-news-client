@@ -2,8 +2,6 @@
 
 Modern Hacker News client which offers an improved user interface while displaying data from the official Hacker News API.
 
-⚠️ This repository is still work in progress.
-
 | Task                        | Status |
 | --------------------------- | -------|
 | New page                    |   ✅   |
