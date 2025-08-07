@@ -14,7 +14,7 @@ Modern Hacker News client which offers an improved user interface while displayi
 | Show page                   |   ✅   |
 | 404 page                    |   ✅   |
 | Real-time timestamp updates |   ✅   |
-| Comments pagination         |   ❌   |
+| Comments pagination         |   ✅   |
 | Handle errors               |   ✅   |
 | Storybook                   |   🚧   |
 | Playwright                  |   🚧   |

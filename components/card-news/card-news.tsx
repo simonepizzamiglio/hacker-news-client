@@ -54,12 +54,13 @@ export function CardNews({
   const isExternalLink = Boolean(href);
 
   return (
-    <article className="flex items-center self-stretch">
+    <article className="group relative flex items-center self-stretch">
       <NextLink
         href={href || `/item/${id}`}
         target={isExternalLink ? "_blank" : undefined}
-        className="flex flex-1 gap-4 px-0 py-6 hover:bg-primary-foreground hover:no-underline"
-      >
+        className="absolute bottom-0 left-0 right-0 top-0 hover:no-underline"
+      />
+      <div className="flex flex-1 gap-4 px-0 py-6 group-hover:bg-primary-foreground">
         <div className="flex h-10 w-10 items-center justify-center gap-2 rounded-full bg-stone-50 p-2">
           <div className="text-base-color">
             {getIcon(postType, isExternalLink)}
@@ -78,13 +79,14 @@ export function CardNews({
             )}
           </div>
           <PostInfo
+            id={id}
             time={timestamp}
             score={points}
             by={by}
             commentsCount={commentsCount}
           />
         </div>
-      </NextLink>
+      </div>
     </article>
   );
 }

@@ -1,5 +1,5 @@
 import { fetchItem, fetchItems } from "@/lib/api";
-import { isCommentItem, PollOptItemSchema, PostTypeEnum } from "@/lib/schemas";
+import { PollOptItemSchema, PostTypeEnum } from "@/lib/schemas";
 import { exhaustiveGuard } from "@/lib/utils";
 import type { Metadata } from "next";
 import "./page.css";
@@ -7,6 +7,7 @@ import { NotFoundSection } from "@/components/not-found";
 import { Suspense } from "react";
 import { z } from "zod";
 import { PostItem } from "@/components/post-item";
+import { PaginatedComments } from "@/components/paginated-comments";
 
 type PageProps = {
   params: { id: string };
@@ -49,6 +50,7 @@ export default async function Page({ params }: PageProps) {
     case PostTypeEnum.story:
       return (
         <PostItem
+          id={item.id}
           title={item.title}
           score={item.score}
           by={item.by}
@@ -58,22 +60,17 @@ export default async function Page({ params }: PageProps) {
           link={item.url}
         >
           {item.descendants > 0 && (
-            <PostItem.CommentsContainer descendants={item.descendants}>
-              {(item.kids || []).map((kid) => (
-                <Suspense
-                  key={`item-suspense-${params.id}-comment-${kid}`}
-                  fallback={<PostItem.CommentSkeleton />}
-                >
-                  <AsyncComment id={kid} level={0} />
-                </Suspense>
-              ))}
-            </PostItem.CommentsContainer>
+            <PaginatedComments
+              initialCommentIds={item.kids || []}
+              descendants={item.descendants}
+            />
           )}
         </PostItem>
       );
     case PostTypeEnum.poll:
       return (
         <PostItem
+          id={item.id}
           title={item.title}
           score={item.score}
           by={item.by}
@@ -87,22 +84,17 @@ export default async function Page({ params }: PageProps) {
             <AsyncPoll ids={item.parts} />
           </Suspense>
           {item.descendants > 0 && (
-            <PostItem.CommentsContainer descendants={item.descendants}>
-              {(item.kids || []).map((kid) => (
-                <Suspense
-                  key={`item-suspense-${params.id}-comment-${kid}`}
-                  fallback={<PostItem.CommentSkeleton />}
-                >
-                  <AsyncComment id={kid} level={0} />
-                </Suspense>
-              ))}
-            </PostItem.CommentsContainer>
+            <PaginatedComments
+              initialCommentIds={item.kids || []}
+              descendants={item.descendants}
+            />
           )}
         </PostItem>
       );
     case PostTypeEnum.job:
       return (
         <PostItem
+          id={item.id}
           title={item.title}
           time={item.time}
           text={item.text}
@@ -115,35 +107,6 @@ export default async function Page({ params }: PageProps) {
     default:
       return exhaustiveGuard(type);
   }
-}
-
-async function AsyncComment({ id, level }: { id: number; level: number }) {
-  const item = await fetchItem(id);
-
-  if (!item) {
-    return null;
-  }
-
-  if (!isCommentItem(item) || !item.text) {
-    return null;
-  }
-
-  return (
-    <PostItem.Comment
-      level={level}
-      by={item.by}
-      time={item.time}
-      text={item.text}
-    >
-      {item.kids?.map((kid) => (
-        <AsyncComment
-          id={kid}
-          key={`reply-${id}-kid-${kid}`}
-          level={level + 1}
-        />
-      ))}
-    </PostItem.Comment>
-  );
 }
 
 async function AsyncPoll({ ids }: { ids: number[] }) {
